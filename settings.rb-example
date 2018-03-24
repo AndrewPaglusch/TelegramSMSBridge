@@ -1,0 +1,16 @@
+#Poll delay
+SLEEP_TIME = 10
+
+#Telegram bot you'll use for sending/receiving messages
+TELEGRAM_BOT_KEY = 'XXXXXXXXXX'
+TELEGRAM_USER_ID = '0000000000'
+
+#Twillo account info
+TWILIO_ACCOUNT_SID = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+TWILIO_AUTH_TOKEN = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+
+#Twilio phone number your messages will come from
+TWILIO_NUMBER = '+15555555555'
+
+#Phone number of person you'll be messaging
+REAL_NUMBER = '+17777777777'
