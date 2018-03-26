@@ -45,9 +45,22 @@ def sms_purge_expired(api_messages)
   File.write('read_messages.txt', disk_contents)
 end
 
-def send_sms(msg,pic = nil)
+def send_sms(msg)
   client = Bandwidth::Client.new(:user_id => BANDWIDTH_USER_ID, :api_token => BANDWIDTH_API_TOKEN, :api_secret => BANDWIDTH_API_SECRET)
   message = Bandwidth::Message.create(client, {:from => BANDWIDTH_NUMBER, :to => REAL_NUMBER, :text => msg})
+rescue => e
+  puts e.message
+end
+
+def send_mms(msg,file_path)
+  client = Bandwidth::Client.new(:user_id => BANDWIDTH_USER_ID, :api_token => BANDWIDTH_API_TOKEN, :api_secret => BANDWIDTH_API_SECRET)
+
+  #generate filename and upload : <<md5>>_name.jpg
+  file_name = "#{Digest::MD5.file(file_path)}_#{file_path}"
+  Bandwidth::Media.upload(client, file_name, File.open(file_path, "r"), "image/png")
+  file = (Bandwidth::Media.list(client).select {|f| f[:media_name] == file_name})[0]
+
+  message = Bandwidth::Message.create(client, {:from => BANDWIDTH_NUMBER, :to => REAL_NUMBER, :text => msg, :media => file[:content]}) 
 rescue => e
   puts e.message
 end
